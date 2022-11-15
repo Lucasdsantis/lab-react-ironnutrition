@@ -1,24 +1,53 @@
-import logo from './logo.svg';
-import './App.css';
-
+import foodsArr from './foods.json';
+import { Row } from "antd";
+import { FoodBox} from "./components/interation3/interation3"
+import { useState } from "react";
+import {AddFoodForm} from "./components/interation4/interation4"
+import { Search } from "./components/interation5"
 function App() {
+ 
+const [foods, setFoods] = useState(foodsArr);
+const [filtredFood, setFiltredFoods] = useState(foods)
+ 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <h1>Food List</h1>
+      <div className="foodList">
+      {filtredFood.map((currentElement) => {
+
+      return <div>
+       <p>{currentElement.name}</p>
+       <img src={currentElement.image} alt="foods image" width={100}/>
+
+      </div>
+      })}
+      </div>
+    
+
+
+      <AddFoodForm addFoods = {setFoods}/>
+
+
+      <Search filtredFunction = {setFiltredFoods} allFoods = {foods} />
+   
+      <Row style={{ width: '100%', justifyContent: 'center' }}>
+       
+        {foods.map((currentElement) => {
+          return( 
+            <FoodBox 
+            name={currentElement.name} 
+          calories= {currentElement.calories}
+          image = {currentElement.image} 
+            servings = {currentElement.servings}
+            deleteFunc={setFoods}
+            attRenderFunc={setFiltredFoods}
+            allFoods={foods}
+          />
+          )
+        } )}
+      </Row>
+     
+    </>
   );
 }
 
